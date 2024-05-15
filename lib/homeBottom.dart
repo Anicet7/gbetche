@@ -2,12 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gbetche/bottom/traduction_page.dart';
+import 'package:gbetche/bottom/transcription_page.dart';
+import 'package:gbetche/bottom/visualisation_page.dart';
 import 'package:gbetche/walk.dart';
 import 'dart:async';
 import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'bottom/education_page.dart';
 import 'gradient_color.dart';
 
 
@@ -29,55 +33,117 @@ class _HomeBottomPageState extends State<HomeBottomPage> {
 
 
   List<TabData> tabs = [];
-  final Color _inactiveColor = Colors.lightBlue;
-  Color _currentColor = Colors.blue;
+
+  // final Color _inactiveColor = Colors.lightBlue;
+  final Color _inactiveColor = Colors.lightGreen;
+  Color _currentColor = Colors.green;
   int _currentPage = 0;
-  late String _currentTitle;
 
   @override
   void initState() {
     super.initState();
-    tabs = [
-      TabData(
-        iconData: Icons.home,
-        title: "Home",
-        tabColor: Colors.deepPurple,
-        tabGradient: getGradient(Colors.deepPurple),
-      ),
-      TabData(
-        iconData: Icons.search,
-        title: "Search",
-        tabColor: Colors.pink,
-        tabGradient: getGradient(Colors.pink),
-      ),
-      TabData(
-        iconData: Icons.alarm,
-        title: "Alarm",
-        tabColor: Colors.amber,
-        tabGradient: getGradient(Colors.amber),
-      ),
-      TabData(
-        iconData: Icons.settings,
-        title: "Settings",
-        tabColor: Colors.teal,
-        tabGradient: getGradient(Colors.teal),
-      ),
-    ];
-    _currentTitle = tabs[0].title;
+
+
   }
 
 
   @override
   Widget build(BuildContext context) {
+
+    /// Page
+    List<Widget> _pages = <Widget>[
+      TranscriptionPage(),
+      TraductionPage(),
+      VisualisationPage(),
+      EducationPage(),
+    ];
+
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
+      /* body: Center(
       child: Text(
       _currentTitle,
       style: TextStyle(fontWeight: FontWeight.bold, color: _currentColor),
     ),
     ),
+      */
+      body: Center(
+        child: _pages[_currentPage],
+      ),
+
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: _currentPage,
+        onTap: (i) => setState(() => _currentPage = i),
+        items: [
+
+          /// Trascription
+          SalomonBottomBarItem(
+            icon: Icon(Icons.subtitles_outlined),
+            title: Text("Trascription"),
+            selectedColor: Colors.green,
+          ),
+
+          /// Traduction
+          SalomonBottomBarItem(
+            icon: Icon(Icons.translate_sharp),
+            title: Text("Traduction"),
+            selectedColor: Colors.pink,
+          ),
+
+          /// Visualisation
+          SalomonBottomBarItem(
+            icon: Icon(Icons.image_sharp),
+            title: Text("Visualisation"),
+            selectedColor: Colors.orange,
+          ),
+
+          /// Éducation
+          SalomonBottomBarItem(
+            icon: Icon(Icons.school_outlined),
+            title: Text("Éducation"),
+            selectedColor: Colors.teal,
+          ),
+
+
+        ],
+      ),
+
+      /*
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        iconSize: 40,
+        mouseCursor: SystemMouseCursors.grab,
+        selectedFontSize: 20,
+        selectedIconTheme: IconThemeData(color: Colors.amberAccent, size: 40),
+        selectedItemColor: Colors.amberAccent,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        currentIndex: _currentPage,
+        unselectedIconTheme: IconThemeData(
+          color: Colors.deepOrangeAccent,
+        ),
+        unselectedItemColor: Colors.deepOrangeAccent,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.email),
+            label: 'Emails',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera),
+            label: 'Camera',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chats',
+          ),
+        ],
+      ),
+
+      */
+      /*
       bottomNavigationBar: CubertoBottomBar(
+
         key: const Key("BottomBar"),
         inactiveIconColor: _inactiveColor,
         tabStyle: CubertoTabStyle.styleNormal,
@@ -103,10 +169,19 @@ class _HomeBottomPageState extends State<HomeBottomPage> {
           });
         },
       ),
+      */
     );
   }
 
 
+
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
 }
 
 

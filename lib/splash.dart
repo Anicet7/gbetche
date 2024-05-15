@@ -153,7 +153,7 @@ class _SplashScreenState extends State<Splash> with TickerProviderStateMixin {
   // Gestion du temps
   startTimer() async {
     // var duration = Duration (seconds: 5);  // Android Version
-    var duration = Duration(seconds: 2);
+    var duration = Duration(seconds: 5);
     return Timer(duration, route);
   }
 

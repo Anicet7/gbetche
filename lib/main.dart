@@ -11,6 +11,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 
 import 'model/pref_model.dart';
+import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
+import 'package:dart_openai/dart_openai.dart';
 
 /*
 void main() {
@@ -23,6 +25,19 @@ Future<void> main() async {
   ///void main() {
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// Languge
+  await langdetect.initLangDetect();
+
+  ///
+  ///const apiKey = "sk-proj-e8WKbU4c3Nps9iD11QalT3BlbkFJPSCRaJ9HoCYMypEp3jOs";
+  ///const apiKey = "sk-proj-ZVDICBGBkoOa23aWqRgYT3BlbkFJt76VLrp6sXZhteeYRGFS";
+  const apiKey = "sk-proj-PndTvjDVj2iG937Cf25iT3BlbkFJBeQAr1gWxdyzzrk2Vv3d";
+  OpenAI.apiKey = apiKey;
+  OpenAI.requestsTimeOut = Duration(seconds: 60); // 60 seconds.
+  ///OpenAI.baseUrl = "https://api.openai.com/v1"; // the default one.
+  OpenAI.baseUrl = "https://api.openai.com"; // the default one.
+  OpenAI.showLogs = true;
 
   /// Hive
   /// Save Adaptateur

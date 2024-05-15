@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'homeBottom.dart';
 import 'main.dart';
 
@@ -50,7 +49,10 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/walk/$assetName', width: width);
+    return Container(
+      margin: const EdgeInsets.only(left:15.0, right:15.0, top:20, bottom : 10),
+      child: Image.asset('assets/walk/$assetName', width: width),
+    );
   }
 
   @override
@@ -66,13 +68,15 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     );
 
     return IntroductionScreen(
+
       key: introKey,
-      // globalBackgroundColor: Colors.yellow,
+     // globalBackgroundColor: Colors.orangeAccent,
       globalBackgroundColor: Colors.white,
       allowImplicitScrolling: true,
       autoScrollDuration: 3000,
       infiniteAutoScroll: true,
 
+      globalHeader: Container(height: 34,color: Colors.orangeAccent,),
       pages: [
         /// 1
         /// style: GoogleFonts.lato(),
@@ -90,6 +94,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                 fontSize: 16),
             textAlign: TextAlign.justify,
           ),
+          ///image: _buildImage('Freelancer.gif'),
           image: _buildImage('1.png'),
           decoration: pageDecoration,
         ),
@@ -163,6 +168,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       nextFlex: 0,
       showBackButton: false,
       doneStyle: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
+      skipStyle: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
       baseBtnStyle: ButtonStyle(
