@@ -1,18 +1,16 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:gbetche/bottom/traduction_page.dart';
 import 'package:gbetche/bottom/transcription_page.dart';
 import 'package:gbetche/bottom/visualisation_page.dart';
 import 'package:gbetche/walk.dart';
-import 'dart:async';
 import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'bottom/education_page.dart';
-import 'gradient_color.dart';
+
 
 
 class HomeBottomPage extends StatefulWidget {

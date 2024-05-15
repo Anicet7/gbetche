@@ -34,8 +34,8 @@ Future<void> main() async {
   ///const apiKey = "sk-proj-ZVDICBGBkoOa23aWqRgYT3BlbkFJt76VLrp6sXZhteeYRGFS";
   const apiKey = "sk-proj-PndTvjDVj2iG937Cf25iT3BlbkFJBeQAr1gWxdyzzrk2Vv3d";
   OpenAI.apiKey = apiKey;
-  OpenAI.requestsTimeOut = Duration(seconds: 60); // 60 seconds.
-  ///OpenAI.baseUrl = "https://api.openai.com/v1"; // the default one.
+  //OpenAI.requestsTimeOut = Duration(seconds: 60); // 60 seconds.
+  //OpenAI.baseUrl = "https://api.openai.com/v1"; // the default one.
   OpenAI.baseUrl = "https://api.openai.com"; // the default one.
   OpenAI.showLogs = true;
 

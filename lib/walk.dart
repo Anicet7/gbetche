@@ -31,7 +31,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   void _onIntroEnd(context) {
     /// Hive
     ///
-    //box_settings.put(Hive_Box_key.Settings, true);
+    box_settings.put(Hive_Box_key.Settings, true);
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const HomeBottomPage()),

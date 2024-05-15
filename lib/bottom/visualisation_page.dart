@@ -6,7 +6,6 @@ import 'dart:io';
 import 'dart:io' as io;
 import 'dart:typed_data';
 
-
 import 'package:another_audio_recorder/another_audio_recorder.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -22,11 +21,8 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
 
-
 import 'package:stability_image_generation/stability_image_generation.dart';
 import 'package:http/http.dart' as http;
-
-
 
 class VisualisationPage extends StatefulWidget {
   const VisualisationPage({super.key});
@@ -46,11 +42,8 @@ class VisualisationPage extends StatefulWidget {
 ///====>>> Fongbe Audio ==> Fongbe Text
 
 class _VisualisationPageState extends State<VisualisationPage> {
-
   TextEditingController controller_description = TextEditingController();
   TextEditingController controller_objet = TextEditingController();
-
-
 
   ///
   bool startRecord = false;
@@ -62,9 +55,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
   //bool _isRecording = false;
   //late String _filePath;
 
-
   /// Audio record
- // final record = AudioRecorder();
+  // final record = AudioRecorder();
   bool showPlayer = false;
   String? audioPath;
 
@@ -107,8 +99,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
   @override
   void initState() {
     showPlayer = false;
-
     super.initState();
+
     ///_initSpeech();
     _init(full_path: "/storage/emulated/0/Download/");
   }
@@ -124,7 +116,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
 
     ///
     Fluttertoast.showToast(
-        msg: "Le code de langue n'est pas encore pris en compte, or The language code is not yet taken into account.",
+        msg:
+            "Le code de langue n'est pas encore pris en compte, or The language code is not yet taken into account.",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -205,11 +198,6 @@ class _VisualisationPageState extends State<VisualisationPage> {
   Widget build(BuildContext context) {
     ///print(startRecord);
 
-    /// The size of the container for the generated image.
-    final double size = Platform.isAndroid || Platform.isIOS
-        ? MediaQuery.of(context).size.width
-        : MediaQuery.of(context).size.height / 2;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -257,16 +245,29 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                       child: CupertinoActivityIndicator(
                                         animating: true,
                                         color: Colors.green,
-                                        radius: MediaQuery.of(context).size.width < 800
-                                            ? MediaQuery.of(context).size.width * 0.2
-                                            : MediaQuery.of(context).size.height * 0.005,
+                                        radius:
+                                            MediaQuery.of(context).size.width <
+                                                    800
+                                                ? MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                0.12
+                                                : MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.005,
                                       ),
                                     );
                                   } else if (snapshot.hasError) {
                                     /// If an error occurred while getting the image data, display an error message.
-                                    return Text( "Une erreur s'est produite durant le chargement : "+'Error: ${snapshot.error.toString().substring(30)}', style: TextStyle(
-                                      color: Colors.red, fontWeight: FontWeight.bold,fontSize: 18
-                                    ),);
+                                    return Text(
+                                      "Une erreur s'est produite durant le chargement : " +
+                                          'Error: ${snapshot.error.toString().substring(30)}',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    );
                                   } else if (snapshot.hasData) {
                                     /// If the image data is available, display the image using Image.memory().
                                     return ClipRRect(
@@ -280,8 +281,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                 },
                               )
                             : Column(
-                              children: [
-                                Center(
+                                children: [
+                                  Center(
                                     child: Text(
                                       _fongbe,
                                       style: TextStyle(
@@ -291,10 +292,9 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                       ),
                                     ),
                                   ),
-
-                                Image.asset("assets/walk/Freelancer.gif")
-                              ],
-                            ),
+                                  Image.asset("assets/walk/Freelancer.gif")
+                                ],
+                              ),
                       ),
 
                       /// Size Button
@@ -370,7 +370,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
                   child: Column(
                     children: [
                       /// ///
-                     /* Center(
+                      /* Center(
                         child: Container(
                           color: Colors.white,
                           padding: EdgeInsets.all(26),
@@ -393,9 +393,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
                       ),
                       */
 
-
                       /// Record New
-                  /*
+                      /*
                       Center(
                         child: showPlayer
                             ? Padding(
@@ -419,82 +418,89 @@ class _VisualisationPageState extends State<VisualisationPage> {
                       ),
                       */
 
-
-
                       /// Button
                       Container(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-
                             /// Generer
                             Expanded(
                                 child: Container(
-                                 // color: Colors.red,
-                                  margin: EdgeInsets.only(left: 10,right: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: TextButton(
-
-                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.orange)) ,
-                                      child:  Text(
-                                        "      Générer     ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-
-                                      onPressed: run == false ? () {
-                                        setState(() {
-
-                                          if (controller_description.text.isNotEmpty)
-                                            {
+                              // color: Colors.red,
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.orange)),
+                                  child: Text(
+                                    "      Générer     ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onPressed: run == false
+                                      ? () {
+                                          setState(() {
+                                            if (controller_description
+                                                .text.isNotEmpty) {
                                               /// Generation
 
                                               print("Hello");
-                                              convertEnFrToTextFn(langue: fon_en,phrase: controller_description.text );
-
+                                              convertEnFrToTextFn(
+                                                  langue: fon_en,
+                                                  phrase: controller_description
+                                                      .text);
                                             }
-                                        });
-                                      } : null,
-
-                                    ),
-                                  ),
-                                )),
+                                          });
+                                        }
+                                      : null,
+                                ),
+                              ),
+                            )),
 
                             /// Effaccer
                             Expanded(
                                 child: Container(
-                                 // color: Colors.red,
-                                  margin: EdgeInsets.only(left: 10,right: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: TextButton(
-                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)) ,
-                                      child:  Text(
-                                        "      Effacer     ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-
-                                      onPressed: () {
-                                        setState(() {
-
-                                          controller_description.clear();
-                                          run = false;
-
-                                        });
-                                      },
-
-                                    ),
+                              // color: Colors.red,
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.red)),
+                                  child: Text(
+                                    "      Effacer     ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                )),
-
+                                  onPressed: () {
+                                    setState(() {
+                                      controller_description.clear();
+                                      run = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            )),
                           ],
                         ),
                       ),
-
 
                       /// Description
                       Container(
                         padding: const EdgeInsets.all(8.0),
                         //color: Colors.red, height: 100,
-                        child:  Container(
-                          margin: const EdgeInsets.only(right: 5, left: 5, top: 5),
-                          padding: const EdgeInsets.only(right: 5, left: 5, top: 5),
+                        child: Container(
+                          margin:
+                              const EdgeInsets.only(right: 5, left: 5, top: 5),
+                          padding:
+                              const EdgeInsets.only(right: 5, left: 5, top: 5),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
@@ -505,12 +511,13 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                   // color: Colors.orange,
                                   // height: 150,
                                   // width: 200,
-                                  width: MediaQuery.of(context).size.width * 0.95,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.95,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-
                                       /// Prompte
                                       Expanded(
                                         flex: 3,
@@ -520,26 +527,32 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                           keyboardType: TextInputType.text,
                                           // enabled: ((auteur!.isAdmin  == true) || (auteur!.isComptable  == true) ),
                                           controller: controller_description,
-                                          autovalidateMode: AutovalidateMode.always,
+                                          autovalidateMode:
+                                              AutovalidateMode.always,
                                           decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets.symmetric(
-                                                vertical: 15.0, horizontal: 10.0),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 15.0,
+                                                    horizontal: 10.0),
                                             /*icon: const Icon(
                                               Icons.video_stable_outlined,
                                               color: Colors.green,
                                             ),*/
                                             labelText: "Une phrase en fongbé",
-                                            labelStyle: const TextStyle(color: Colors.black),
+                                            labelStyle: const TextStyle(
+                                                color: Colors.black),
                                             hintText: "Décrivez ...",
                                             fillColor: Colors.white,
                                             focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(15),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
                                               borderSide: const BorderSide(
                                                 color: Colors.black,
                                               ),
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(15),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
                                               borderSide: const BorderSide(
                                                 color: Colors.grey,
                                                 width: 2.0,
@@ -549,31 +562,25 @@ class _VisualisationPageState extends State<VisualisationPage> {
                                           onSaved: (String? value) {
                                             // This optional block of code can be used to run
                                             // code when the user saves the form.
-
-
                                           },
-                                          onTap: (){
+                                          onTap: () {
                                             setState(() {
                                               run = false;
                                             });
                                           },
                                           validator: (String? value) {
-                                            return
-                                              value?.isNotEmpty == false
-                                                  ? "Une phrase en fongbé"
-                                                  : null;
+                                            return value?.isNotEmpty == false
+                                                ? "Une phrase en fongbé"
+                                                : null;
                                           },
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ),
-
                               ]),
-                        ),),
-
-
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -584,7 +591,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Visibility(
-        visible: true,
+        visible: false,
         child: Padding(
           ///padding: EdgeInsets.only(bottom: 85),
           // padding: EdgeInsets.only(bottom: 45),
@@ -598,7 +605,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
             ///animate: _speechToText.isListening ,
             curve: Curves.fastOutSlowIn,
             child:
-            /*
+                /*
             GestureDetector(
              // /*
               onTap: (){
@@ -661,27 +668,29 @@ class _VisualisationPageState extends State<VisualisationPage> {
               ),
             ),
             */
-            Center(
+                Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-
                   ElevatedButton(
-                    onPressed: (){
-                      _currentStatus == RecordingStatus.Recording ? _stop :
-                      _start;
+                    onPressed: () {
+                      _currentStatus == RecordingStatus.Recording
+                          ? _stop
+                          : _start;
                     },
-                    child: Text(_currentStatus == RecordingStatus.Recording ? 'Stop Recording' : 'Start Recording'),
+                    child: Text(_currentStatus == RecordingStatus.Recording
+                        ? 'Stop Recording'
+                        : 'Start Recording'),
                   ),
 
-
                   /// Upload
-                  if ( (_currentStatus != RecordingStatus.Recording) && (_current!.path != null))
+                  if ((_currentStatus != RecordingStatus.Recording) &&
+                      (_current != null))
                     ElevatedButton(
-                      onPressed: (){
-                       /// test( "/storage/emulated/0/Download/v11.wav");
-                       // Source source = DeviceFileSource(_current!.path!);
-                        test( _current!.path.toString());
+                      onPressed: () {
+                        /// test( "/storage/emulated/0/Download/v11.wav");
+                        // Source source = DeviceFileSource(_current!.path!);
+                        test(_current!.path.toString());
                       },
                       child: Text('Upload File'),
                     ),
@@ -694,10 +703,9 @@ class _VisualisationPageState extends State<VisualisationPage> {
     );
   }
 
-
   ///
   ///
-  Future<String> AudioFonToTextFon({ required String filename}) async {
+  Future<String> AudioFonToTextFon({required String filename}) async {
     String transcription = "";
 
     ///
@@ -705,11 +713,12 @@ class _VisualisationPageState extends State<VisualisationPage> {
       'Authorization': 'Bearer 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',
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    final url = Uri.parse('https://api-inference.huggingface.co/models/speechbrain/asr-wav2vec2-dvoice-fongbe');
+    final url = Uri.parse(
+        'https://api-inference.huggingface.co/models/speechbrain/asr-wav2vec2-dvoice-fongbe');
 
-    var response ;
+    var response;
     final data = await File(filename).readAsBytesSync();
-    response  = await http.post(url, headers: headers, body: data);
+    response = await http.post(url, headers: headers, body: data);
 
     print(await File(filename).path);
     print(await File(filename).parent);
@@ -724,16 +733,13 @@ class _VisualisationPageState extends State<VisualisationPage> {
     );
      */
 
-
     /// final responseData = json.decode(newresponse.body);
-   // final responseData = json.decode(newresponse.text);
-   // return responseData['text'];
+    // final responseData = json.decode(newresponse.text);
+    // return responseData['text'];
 
-   // if (response.statusCode == 200) {
+    // if (response.statusCode == 200) {
     if (response.statusCode == 200) {
-
       transcription = json.decode(response.body);
-
 
       setState(() {
         Fluttertoast.showToast(
@@ -745,9 +751,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
             textColor: Colors.white,
             fontSize: 16.0);
       });
-
-    }
-    else {
+    } else {
       print("${response.reasonPhrase} ${response.statusCode}");
 
       setState(() {
@@ -764,7 +768,6 @@ class _VisualisationPageState extends State<VisualisationPage> {
 
     return jsonDecode(response.body);
 
-
     Fluttertoast.showToast(
         msg: "Audio transferer avec succes Ai",
         toastLength: Toast.LENGTH_LONG,
@@ -773,11 +776,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 16.0);
-
-
   }
-
-
 
   final String en_fon = "en-fon";
   final String fr_fon = "fr-fon";
@@ -785,26 +784,31 @@ class _VisualisationPageState extends State<VisualisationPage> {
   final String fon_en = "fon-fr";
 
   /// Traduction Fon
-  Future<String> convertEnFrToTextFn({required String phrase, required String langue, String path = "", } ) async{
+  Future<String> convertEnFrToTextFn({
+    required String phrase,
+    required String langue,
+    String path = "",
+  }) async {
     String reponse = "";
 
-
-    var request = http.Request('POST', Uri.parse('https://translate-api-f4bl.onrender.com/translate/$langue?sentence=$phrase'));
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://translate-api-f4bl.onrender.com/translate/$langue?sentence=$phrase'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-     /// print(await response.stream.bytesToString());
+      /// print(await response.stream.bytesToString());
       await response.stream.bytesToString().then((value) {
-        reponse = value ;
+        reponse = value;
 
         setState(() {
-          _lastWords = value ;
+          _lastWords = value;
           run = true;
           print(value);
         });
-
-      }).catchError((onError){
+      }).catchError((onError) {
         setState(() {
           Fluttertoast.showToast(
               msg: onError.toString(),
@@ -817,11 +821,8 @@ class _VisualisationPageState extends State<VisualisationPage> {
         });
       });
 
-      setState(() {
-
-      });
-    }
-    else {
+      setState(() {});
+    } else {
       print(response.reasonPhrase);
       setState(() {
         Fluttertoast.showToast(
@@ -839,23 +840,24 @@ class _VisualisationPageState extends State<VisualisationPage> {
   }
 
   /// Traduction Fon Text Audio
-  Future<String> convertEnFrToTextFnAudio({ required String path} ) async{
-
+  Future<String> convertEnFrToTextFnAudio({required String path}) async {
     String reponse = "";
     final data = await File(path).readAsBytes();
 
-    var request = http.Request('POST', Uri.parse('https://gbetche-transcriber.onrender.com/audio-fon',),);
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        'https://gbetche-transcriber.onrender.com/audio-fon',
+      ),
+    );
 
-
-     http.StreamedResponse response = await request.send();
+    http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-     /// print(await response.stream.bytesToString());
+      /// print(await response.stream.bytesToString());
       await response.stream.bytesToString().then((value) {
-        reponse = value ;
-
-
-      }).catchError((onError){
+        reponse = value;
+      }).catchError((onError) {
         setState(() {
           Fluttertoast.showToast(
               msg: onError.toString(),
@@ -869,11 +871,7 @@ class _VisualisationPageState extends State<VisualisationPage> {
 
         print(onError.name);
       });
-
-
-
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
       setState(() {
         Fluttertoast.showToast(
@@ -889,8 +887,6 @@ class _VisualisationPageState extends State<VisualisationPage> {
 
     return reponse;
   }
-
-
 
   /// Version correct Audio Fongbe vers Text Fongbe
   void test(String path) async {
@@ -917,31 +913,30 @@ class _VisualisationPageState extends State<VisualisationPage> {
       var responseDataSuite = await http.Response.fromStream(response);
 
       // Vérifier si le contenu est du JSON
-      if (responseDataSuite.headers['content-type']?.contains('application/json') ?? false) {
+      if (responseDataSuite.headers['content-type']
+              ?.contains('application/json') ??
+          false) {
         print('Success: ${responseDataSuite.body}');
       } else {
         print('Failed: Unexpected content type');
       }
-
     } else {
       print('Failed with status: ${response.statusCode}');
     }
   }
-
 
   @override
   void dispose() {
     super.dispose();
   }
 
-
   _init({required String full_path}) async {
     try {
       if (await AnotherAudioRecorder.hasPermissions) {
-       /// String customPath = '/another_audio_recorder_';
+        /// String customPath = '/another_audio_recorder_';
 
-       io.Directory appDocDirectory;
-       /* if (io.Platform.isIOS) {
+        //io.Directory appDocDirectory;
+        /* if (io.Platform.isIOS) {
           appDocDirectory = await getApplicationDocumentsDirectory();
         } else {
           appDocDirectory = (await getExternalStorageDirectory())!;
@@ -950,12 +945,15 @@ class _VisualisationPageState extends State<VisualisationPage> {
 
         // can add extension like ".mp4" ".wav" ".m4a" ".aac"
         ///customPath = appDocDirectory.path + customPath + DateTime.now().millisecondsSinceEpoch.toString();
-        String customPath = full_path + DateTime.now().millisecondsSinceEpoch.toString();
+        String customPath =
+            full_path + DateTime.now().millisecondsSinceEpoch.toString();
 
         // .wav <---> AudioFormat.WAV
         // .mp4 .m4a .aac <---> AudioFormat.AAC
         // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
-        _recorder = AnotherAudioRecorder(customPath, audioFormat: AudioFormat.WAV);
+        _recorder =
+            AnotherAudioRecorder(customPath, audioFormat: AudioFormat.WAV);
+
         ///_recorder = AnotherAudioRecorder(full_path, audioFormat: AudioFormat.WAV);
 
         await _recorder?.initialized;
@@ -1012,16 +1010,13 @@ class _VisualisationPageState extends State<VisualisationPage> {
     setState(() {});
   }
 
-
-
-
   _stop() async {
     var result = await _recorder?.stop();
 
     print("Stop recording: ${result?.path}");
     print("Stop recording: ${result?.duration}");
 
-   // File file = widget.localFileSystem.file(result?.path);
+    // File file = widget.localFileSystem.file(result?.path);
     File file = File(result!.path.toString());
     print("File length: ${await file.length()}");
     setState(() {
@@ -1029,7 +1024,4 @@ class _VisualisationPageState extends State<VisualisationPage> {
       _currentStatus = _current!.status!;
     });
   }
-
-
-
 }

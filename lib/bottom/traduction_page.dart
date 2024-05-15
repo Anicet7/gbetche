@@ -1,21 +1,16 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 
 // recommend to import 'as langdetect' because this package shows a simple function name 'detect'
 import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
 import 'package:http/http.dart' as http;
-
 
 class TraductionPage extends StatefulWidget {
   const TraductionPage({super.key});
@@ -23,7 +18,6 @@ class TraductionPage extends StatefulWidget {
   @override
   State<TraductionPage> createState() => _TraductionPageState();
 }
-
 
 ///
 /// Todo
@@ -33,10 +27,9 @@ class TraductionPage extends StatefulWidget {
 ///
 
 class _TraductionPageState extends State<TraductionPage> {
-
-
   ///
   bool startRecord = false;
+  bool startRecordFinal = false;
   bool play_stat = false;
   bool play_stop = false;
 
@@ -46,7 +39,6 @@ class _TraductionPageState extends State<TraductionPage> {
   ///
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
-
 
   ///
   ///String _init_world_fongbe = "Cliquez sur l'icône de lecture pour écouter la traduction audio en fon.\n or \nClick the play icon to listen to the audio translation in fon.";
@@ -71,8 +63,6 @@ class _TraductionPageState extends State<TraductionPage> {
   /// Speak
   flutter_stop() async {
     await flutterTts.stop();
-
-
   }
 
   /// This has to happen only once per app
@@ -92,8 +82,11 @@ class _TraductionPageState extends State<TraductionPage> {
   /// and the SpeechToText plugin supports setting timeouts on the
   /// listen method.
   void _stopListening() async {
-    await _speechToText.stop();
-    setState(() {});
+    /// await _speechToText.stop();
+    setState(() {
+      startRecordFinal = true ;
+      startRecord = true ;
+    });
   }
 
   /// This is the callback that the SpeechToText plugin calls when
@@ -101,17 +94,7 @@ class _TraductionPageState extends State<TraductionPage> {
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       _lastWords = result.recognizedWords;
-
-
-      String codeLangue = langdetect.detect(_lastWords);
-      if (codeLangue == "en") {
-        convertEnFrToTextFn(phrase: _lastWords, langue: en_fon);
-      }else if (codeLangue == "fr")
-        {
-          convertEnFrToTextFn(phrase: _lastWords, langue: fr_fon);
-        }
-
-
+      // startRecordFinal = true ;
     });
   }
 
@@ -123,19 +106,18 @@ class _TraductionPageState extends State<TraductionPage> {
     if (language == "en") {
       /// Traduction
       ///flutter_speak(text: chaines);
-      convertEnFrToTextFn(phrase:  chaines,langue: en_fon).then((value) => flutter_speak(text: value));
-
-
+      convertEnFrToTextFn(phrase: chaines, langue: en_fon)
+          .then((value) => flutter_speak(text: value));
     } else if (language == "fr") {
       /// Traduction
       /// flutter_speak(text: chaines);
-      convertEnFrToTextFn(phrase:  chaines,langue: fr_fon).then((value) => flutter_speak(text: value));
-
+      convertEnFrToTextFn(phrase: chaines, langue: fr_fon)
+          .then((value) => flutter_speak(text: value));
     } else {
-
       ///
       Fluttertoast.showToast(
-          msg: "Le code de langue $language n'est pas encore pris en compte, or The language code $language is not yet taken into account.",
+          msg:
+              "Le code de langue $language n'est pas encore pris en compte, or The language code $language is not yet taken into account.",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -145,9 +127,8 @@ class _TraductionPageState extends State<TraductionPage> {
 
       /// Traduction
       flutter_speak(text: chaines);
+
       ///convertEnFrToTextFn(phrase:  chaines,langue: fr_fon).then((value) => flutter_speak(text: value));
-
-
     }
 
     print('Detected language: $language'); // -> "en"
@@ -196,7 +177,7 @@ class _TraductionPageState extends State<TraductionPage> {
                       ),
 
                       /// Bouton Play
-                  /*
+                      /*
                   Container(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -260,29 +241,98 @@ class _TraductionPageState extends State<TraductionPage> {
                       */
 
                       /// Text FonGbe
-                      Center(
-                        child: Container(
-                          // color: Colors.greenAccent,
-                          color: Colors.white,
-                          padding: EdgeInsets.all(26),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Center(
-                              child: Text(
-                                // _init_world,
-                                _init_world_fongbe,
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.abel(
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: startRecord == true &&  startRecordFinal == true
+                            ? FutureBuilder<String>(
+                                /// Call the [_generate] function to get the image data.
+                                future: convertEnFrToTextFn(langue: fr_fon,phrase: _lastWords),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    /// While waiting for the image data, display a loading indicator.
+                                    return Center(
+                                      child: CupertinoActivityIndicator(
+                                        animating: true,
+                                        color: Colors.orange,
+                                        radius:
+                                            MediaQuery.of(context).size.width <
+                                                    800
+                                                ? MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.12
+                                                : MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.005,
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    /// If an error occurred while getting the image data, display an error message.
+                                    return Center(
+                                      child: Text( "....",
+                                        //"Une erreur s'est produite durant le chargement : " +
+                                         //   'Error: ${snapshot.error.toString().substring(30)}',
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    /// If the image data is available, display the image using Image.memory().
+                                    return Center(
+                                      child: Container(
+                                        // color: Colors.greenAccent,
+                                        color: Colors.white,
+                                        padding: EdgeInsets.all(26),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Center(
+                                            child: Text(
+                                              // _init_world,
+                                              snapshot.data.toString().replaceAll('"', ''),
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.abel(
+                                                color: Colors.orange,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 26,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    /// If no data is available, display a placeholder or an empty container.
+                                    return Container();
+                                  }
+                                },
+                              )
+                            : Center(
+                                child: Container(
+                                  // color: Colors.greenAccent,
+                                  color: Colors.white,
+                                  padding: EdgeInsets.all(26),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Center(
+                                      child: Text(
+                                        // _init_world,
+                                        _init_world_fongbe,
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.abel(
+                                          color: Colors.orange,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
                       ),
-
                     ],
                   ),
                 ),
@@ -333,7 +383,6 @@ class _TraductionPageState extends State<TraductionPage> {
           ],
         ),
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         ///padding: EdgeInsets.only(bottom: 85),
@@ -351,6 +400,8 @@ class _TraductionPageState extends State<TraductionPage> {
             onTapDown: (value) {
               setState(() {
                 startRecord = true;
+                startRecordFinal = false ;
+
               });
 
               _startListening();
@@ -375,16 +426,39 @@ class _TraductionPageState extends State<TraductionPage> {
                 ///_onSpeechResult(_speechToText);
               }
             },
+            onTap: () {
+
+              Fluttertoast.showToast(
+                  msg: "Maintenir le bouton pour enregistrer votre vocale, une fois terminer relancer le bouton",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.orange,
+                  textColor: Colors.white,
+                  fontSize: 14.0);
+
+              ///String codeLangue = langdetect.detect(_lastWords);
+              ///if (codeLangue == "en") {
+
+              /// convertEnFrToTextFn(phrase: _lastWords, langue: en_fon);
+              ///} else if (codeLangue == "fr") {
+            ///____  convertEnFrToTextFn(phrase: _lastWords, langue: fr_fon);
+              // }
+              /// else {
+              ///  print("Non detecter");
+              /// }
+            },
             onTapUp: (value) {
               setState(() {
                 startRecord = false;
+                startRecordFinal = true ;
+
+                _stopListening();
               });
-              _stopListening();
+              //_stopListening();
 
               ///
               //_speechToText.isNotListening ? _startListening : _stopListening;
-
-              _stopListening();
 
               ///_speechToText.stop();
             },
@@ -407,29 +481,55 @@ class _TraductionPageState extends State<TraductionPage> {
     );
   }
 
-
-
   final String en_fon = "en-fon";
   final String fr_fon = "fr-fon";
   final String fon_fr = "fon-en";
   final String fon_en = "fon-fr";
 
   /// Traduction Fon
-  Future<String> convertEnFrToTextFn({required String phrase, required String langue, } ) async{
+  Future<String> convertEnFrToTextFn({
+    required String phrase,
+    required String langue,
+  }) async {
     String reponse = "";
 
-    var request = http.Request('POST', Uri.parse('https://translate-api-f4bl.onrender.com/translate/$langue?sentence=$phrase'));
+
+    /// Verification langue
+    String codeLangue = langdetect.detect(phrase);
+    if (codeLangue == "en") {
+      langue = en_fon ;
+    } else if (codeLangue == "fr") {
+      langue = fr_fon ;
+     }
+     else {
+      print("Enregistrer la parole en français ou en anglais");
+      langue = en_fon ;
+      Fluttertoast.showToast(
+          msg: "Enregistrer la parole en français ou en anglais",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {
+        return ;
+      });
+     }
+
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://translate-api-f4bl.onrender.com/translate/$langue?sentence=$phrase'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      await response.stream.bytesToString().then((value) {reponse = value;
-      _init_world_fongbe = value ;
-      setState(() {
+      // print(await response.stream.bytesToString());
 
-      });
-      }).catchError((onError){
+      await response.stream.bytesToString().then((value) {
+        reponse = value;
+      }).catchError((onError) {
         setState(() {
           Fluttertoast.showToast(
               msg: onError.toString(),
@@ -442,8 +542,14 @@ class _TraductionPageState extends State<TraductionPage> {
         });
       });
 
-    }
-    else {
+     /// setState(() {
+       // _init_world_fongbe = reponse;
+       // print("Traduction");
+       // print(_init_world_fongbe);
+    ///  });
+
+
+    } else {
       print(response.reasonPhrase);
       setState(() {
         Fluttertoast.showToast(
@@ -459,5 +565,4 @@ class _TraductionPageState extends State<TraductionPage> {
 
     return reponse;
   }
-
 }
