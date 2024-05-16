@@ -18,6 +18,10 @@ https://digitalcabsas.com/ai/app.apk
 
 Presentation Video Demo App
 https://digitalcabsas.com/ai/v1.mp4
+- Mobile App Démo Audio Français-Anglais ==> Text Fongbe https://digitalcabsas.com/ai/v2.mp4
+- Mobile App  Démo Text Fongbe ==> Image https://digitalcabsas.com/ai/v3.mp4
+- Mobile App Mini Demo Video Audio Francais/ Anglais ==> Text Fongbe  https://digitalcabsas.com/ai/v4.mp4
+  - API https://gbetche-transcriber.onrender.com/docs 
 
 Presentation Video General Solution 
 https://digitalcabsas.com/ai/v2.mp4
