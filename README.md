@@ -19,6 +19,8 @@ Github repositories for API
 APK Version Android Device
 https://digitalcabsas.com/ai/app.apk
 
+Presentation Video Demo App  https://digitalcabsas.com/ai/GBETCHE%20MOBILE%20APP%20DEMO%20APPS.mp4
+
 Presentation Video Demo App For each part of this apps
 - Mobile App Démo Audio Français-Anglais ==> Text Fongbe https://digitalcabsas.com/ai/video_audio-en_fr-to_fongbe.mp4
 - Mobile App  Démo Text Fongbe ==> Image https://digitalcabsas.com/ai/video_text_fongbe_image.mp4
