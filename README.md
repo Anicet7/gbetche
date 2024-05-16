@@ -1,6 +1,7 @@
 # GBETCHE
 # GBETCHE # FONGBE # ANGLAIS # FRANCAIS
 
+![logo.jpg](assets%2Flogo%2Flogo.jpg)
 
 HACKATHON AI  apps for Local language
 
@@ -27,6 +28,14 @@ Presentation Video Demo App For each part of this apps
 Presentation Video General Solution 
 https://digitalcabsas.com/ai/HACKATHON%20AI%202024%20solution%20GBETCHE.mp4
 
+# ILLUSTRATION
+![1.png](assets%2Fillustrations%2F1.png)
+![2.png](assets%2Fillustrations%2F2.png)
+![3.png](assets%2Fillustrations%2F3.png)
+![4.png](assets%2Fillustrations%2F4.png)
+![5.png](assets%2Fillustrations%2F5.png)
+![6.png](assets%2Fillustrations%2F6.png)
+![7.png](assets%2Fillustrations%2F7.png)
 
 # TECHNOLOGIE 
 - Mobile App Andoir & iOS build with Flutter 
@@ -36,3 +45,5 @@ https://digitalcabsas.com/ai/HACKATHON%20AI%202024%20solution%20GBETCHE.mp4
 - Stability AI
 - Text To Speech
 - Speech To Text
+
+
